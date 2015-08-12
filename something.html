@@ -1,0 +1,193 @@
+<html>
+<head>
+	<script src="processing-1.4.1.js"></script>
+	<!--<link rel="stylesheet" type="text/css" href="flawless2.css"/> -->
+	<script type="text/processing"  data-processing-target="mycanvas">
+	Woman reshma= new Woman(100,10,10,10);
+	
+	void setup() {
+		size(1585,750);
+	}
+	void draw() {
+		background(192,192,192);
+		reshma.drawWoman();
+		if(keyPressed == true){
+			//console.log(keyCode);
+			var dir;
+			if(keyCode==37) {
+				dir ="left" ;
+			}
+			else if(keyCode==39) {
+				dir ="right";
+			}
+			else if(keyCode==38) {
+				dir ="up";
+			}
+			else if(keyCode==40) {
+				dir ="down";
+			}
+			console.log(dir);
+			reshma.moveWoman(dir);
+		}
+	}
+	
+	class Woman {
+		//attributes
+		var x;
+		var y;
+		var w;
+		var h;
+		
+		//constructor
+		Woman(xPos,yPos,width,height){
+		x = xPos;
+		y = yPos;
+		w = width;
+		h = height;
+		}
+		
+		//method
+		
+		void drawWoman() {
+			fill(20,50,60);
+			noStroke();
+			ellipse(x,y,50,50);
+		}
+	
+		void moveWoman(direction){
+			if (direction == "right"){
+			x=x+5;
+			}
+			else if (direction == "left"){
+			x=x-5;
+			}
+			else if (direction == "up"){
+			y=y-5;
+			}
+			else if (direction == "down"){
+			y=y+5;
+			}
+		
+		}
+	
+	
+	}
+	
+	var levels = [//0=blue wall,1=dot,2=chompy,3=ghost,4=large dot, 5=Red Wall
+      [//original
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+    [0,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0],
+    [0,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0],
+    [0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+    [0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+    [0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+    [0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+    [0,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,0],
+    [0,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,0],
+    [0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+    [0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,1,1,0],
+    [0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,1,1,0],
+    [0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+    [0,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,4,0],
+    [0,1,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,0],
+    [0,1,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1,1,0],
+    [0,1,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,1,0],
+    [0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0]
+	var drawMaze = function() {
+    var tile_h = 400/maze.length;
+    var tile_w = 400/maze[0].length;
+    var tile;
+    for(var x = 0;x < maze.length;x += 1){
+        for(var y = 0;y < maze[x].length;y += 1){
+            tile = maze[x][y].val;
+            if(tile === 0){
+                fill(0, 0, 255);
+                rect(tile_h*y,tile_w*x,tile_w+1,tile_h+1);
+                noStroke();
+            }else{
+                fill(0, 0, 0);
+                rect(tile_h*y,tile_w*x,tile_w+1,tile_h+1);
+                if(tile === 1){
+                    fill(255, 255, 255);
+                    ellipse(tile_h*(y+0.5),tile_w*(x+0.5),6,6);
+                }
+                else if(tile === 4){
+                    fill(255, 255, 255);
+                    ellipse(tile_h*(y+0.5),tile_w*(x+0.5),13,13);
+                }
+                else if(tile === 5){fill(0, 0,255);
+                rect(tile_h*y,tile_w*x,tile_w+1,tile_h+1);
+                noStroke();
+                }
+                else if(tile === 6) {fill(255,255,255);
+                text("LEVEL 1",322,16);
+                noStroke();
+                }
+                else if(tile === 7) {fill(255,255,255);
+                text("LEVEL 2",322,16);
+                noStroke();
+                }
+                else if(tile === 8) {fill(255,255,255);
+                text("LEVEL 3",322,16);
+                noStroke();
+                }
+                else if(tile === 9) {fill(255,255,255);
+                text("LEVEL 4",322,16);
+                noStroke();
+                }
+                else if(tile === 10) {fill(255,255,255);
+                text("LEVEL 5",322,16);
+                noStroke();
+                }
+                else if(tile === 11) {fill(255,255,255);
+                text("LEVEL 6",322,16);
+                noStroke();
+                }
+                else if(tile === 12) {fill(255,255,255);
+                text("LEVEL 7",322,16);
+                noStroke();
+                }
+                else if(tile === 13) {fill(255,255,255);
+                text("LEVEL 8",322,16);
+                noStroke();
+                }
+                else if(tile === 14) {fill(255,255,255);
+                text("LEVEL 9",322,16);
+                noStroke();
+                }
+                else if(tile === 15) {fill(255,255,255);
+                text("&*%$€@",322,16);
+                noStroke();
+                } 
+                else if(tile === 16) {fill(255,255,255);
+                text("SCORE",73,16);
+                text(+score,126,16);
+                noStroke();
+                } 
+                else if(tile === 17) {fill(255,255,255);
+                text("HI SCORE   "+highscore,189,16);
+                noStroke();
+                }
+                // glitch black
+                if(tile === 101){
+                    fill(0, 0, 0);
+                    ellipse(tile_h*(y+0.5),tile_w*(x+0.5),6,6);
+                    
+                }
+                
+                
+                
+            }
+            
+        }
+    }
+	
+	
+	
+	</script>
+	</head>
+	<body >
+	<canvas id ="mycanvas"></canvas> 
+</body>
+</html>
