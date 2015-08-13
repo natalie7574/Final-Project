@@ -1,11 +1,51 @@
 <html>
-<head>
-<title>Flawless Fahrenheit<title/>
-<head/>
-<body>
+	<head>
+		<title>Flawless Fahrenheit</title>
+		<link rel="stylesheet" type="text/css" href="flawless.css"/>
+		 <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/[version]/jquery.mobile-[version].min.css" />
+    <script src="http://code.jquery.com/jquery-[version].min.js"></script>
+    <script src="http://code.jquery.com/mobile/[version]/jquery.mobile-[version].min.js"></script>
+		</style>
+	</head>
+		<body>
+		<!-- logo -->
+		<img src="C:\Users\jennifer\Documents\GWC week 6\Final-Project\Logo.png"\>
 
+<!-- Start of first page -->
+<div data-role="page" id="flawless">
 
+  <div data-role="header">
+    <h1>Flawless Farenheit</h1>
+  </div><!-- /header -->
+<div data-role="page" id="pageone">
+  <div data-role="header">
+    <img src="C:\Users\jennifer\Documents\GWC week 6\Final-Project\Logo.png">
+  </div>
 
+  <div data-role="main" class="ui-content">
+    <p>Welcome! If you click on the link below, it will take you to Page Two.</p>
+    <a href="#pagetwo">Go to Page Two</a>
+  </div>
 
-<body/>
-<html/>
+  <div data-role="footer">
+    <h1>Footer Text</h1>
+  </div>
+</div> 
+
+<div data-role="page" id="pagetwo">
+  <div data-role="header">
+    <h1>Welcome To My Homepage</h1>
+  </div>
+
+  <div data-role="main" class="ui-content">
+    <p>This is Page Two. If you click on the link below, it will take you to Page One.</p>
+    <a href="#pageone">Go to Page One</a>
+  </div>
+
+  <div data-role="footer">
+    <h1>Footer Text</h1>
+  </div>
+</div> 
+		</body>
+</html>

@@ -1,0 +1,47 @@
+/* sets girl and logo in middle of screen */
+IMG.displayed {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+/* sets instructions in middle of screen */
+P.displayed {
+	text-align: center;
+	font-size: 25px;
+}
+/* sets button text in center */
+DIV.ui-content {
+	text-align: center;
+}
+/* sets button size and page placement */
+.ui-btn {
+	width:100px;
+	height:30px;
+	margin: 0 auto !important;
+}
+/* sets home page decorations */
+#pageone {
+	background-color: #f4c0d7;
+	border: double;
+	border-width: 25px;
+	border-color: #FFFFFF;
+}
+/* makes logo background white */
+#header {
+	background:white;
+}
+div#id{
+	background:white;
+}
+/* gets rid of underline on button words */
+a:link {
+	text-decoration: none;
+	font-size: 22px;
+	font-family: Verdana;
+	color: black;
+}
+P.about {
+	font-size: 23px;
+	text-align: center;
+}
+

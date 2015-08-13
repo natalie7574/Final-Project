@@ -1,0 +1,63 @@
+<html>
+<head>
+<title>Thermometer</title>
+<script>
+
+
+var maxCelsius = 65;
+var maxFahrenheight = (9 * maxCelsius / 5 )+ 32;
+
+var draw = function() {
+    background(255, 255, 255);
+    
+    // calculte celsius and fahrenheight
+    var celsius = maxCelsius * (height - mouseY) / height; 
+    var fahrenheight = (9 *celsius / 5 )+ 32;    
+
+    if (celsius <= 10) {
+        text("It's cold!", 100, 100);
+    } 
+    else if (celsius <= 15) {
+        text("It's chilly!", 100, 100);
+    }else if(celsius<=20){
+       text("It's cool!", 100, 100); 
+    } else if (celsius <= 25) {
+        text("It's mild!", 100, 100);
+    } 
+     else if(celsius<=30){
+       text("It's warm!", 100, 100); 
+    }
+    else if(celsius<=45){
+       text("It's hot!", 100, 100); 
+
+     
+    }  else if(celsius>45){
+       text("It's very hot!", 100, 100); 
+
+     
+    } 
+
+    // find the color of the thermometer
+    var lerped = lerpColor(color(0, 0, 255), color(255, 0, 0), celsius / maxCelsius);
+    
+    // draw the container for the thermometer
+    fill(255, 255, 255);
+    rect(20, 0, 60, height);
+    
+    // draw the thermometer color
+    fill(lerped);
+    rect(20, mouseY, 60, height - mouseY);
+    
+    fill(240, 240, 240);
+    ellipse(50, 374, 100, 100);
+    
+    fill(0, 0, 0);
+    textSize(25);
+    // print the temperature
+    text(round(celsius) + "°C", 20, 363);
+    text(round(fahrenheight) + "°F", 15, 390);
+};
+
+</script>
+</head>
+</html>

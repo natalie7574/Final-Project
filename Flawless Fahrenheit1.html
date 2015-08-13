@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="flawless2.css">
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+</head>
+<title>Flawless Fahrenheit</title>
+<body>
+
+<!-- HOME PAGE -->
+<div data-role="page" id="pageone">
+  <div id="header" data-role="header" class="ui-header">
+	<!-- logo -->
+    <img class = "displayed" src="C:\Users\jennifer\Documents\GWC week 6\Final-Project\Logo.png">
+  </div>
+  <div data-role="main" class="ui-content">
+	<!-- picture of girl -->
+	<img class = "displayed" src="C:\Users\jennifer\Documents\GWC week 6\Final-Project\girl.png" width="250px" height="250px">
+    <a href="#instructions" class="ui-btn">Play</a>
+	<a href="#about" class="ui-btn">About</a>
+  </div>
+</div> 
+
+<!-- INSTRUCTIONS -->
+<div data-role="page" id="instructions">
+  <div data-role="header">
+    <h1>Instructions</h1>
+  </div>
+  <p class ="displayed">Use the <strong>arrow keys</strong> to navigate your character to the thermostat. Hold down the <strong>space bar</strong> to raise the temperature. Don't let the boss catch you moving or raising the temperature. You have three chances until you get fired!</p> 
+  
+  <!-- BUTTON TO GO TO GAME -->
+  <div data-role="main" class="ui-content">
+	<a href="#pageone" class="ui-btn">Got it!</a>
+  </div>
+  
+  <!-- BUTTON TO GO BACK TO MENU -->
+  <div data-role="footer" class="ui-content"> 
+	<a href="#pageone" class="ui-btn">Back to menu</a>
+  </div>
+</div> 
+
+<!-- ABOUT -->
+<div data-role="page" id="about">
+	<div data-role="header">
+    <h1>About</h1>
+	<p class="about"> 
+	Inspired by the fact that many office buildings are comfortable for men but cold for women.
+	This
+	<a href="http://www.nytimes.com/2015/08/04/science/chilly-at-work-a-decades-old-formula-may-be-to-blame.html?_r=1">New York Times article</a>
+	explains why. 	
+	So does
+	<a href="http://www.nytimes.com/2008/06/29/jobs/29career.html">
+	this one.</a>
+	And also this
+	<a href="http://money.cnn.com/2015/08/03/news/offices-too-cold-for-women/">
+	CNN article.</a>
+	This 
+	<a href="http://www.bustle.com/articles/83254-why-are-offices-so-cold-6-reasons-companies-need-to-turn-the-damn-ac-down">
+	Bristle article</a>
+	explains the benefits of turning the AC down.
+	<br>
+	<br>
+	Created by DivaDevelopers at the GirlsWhoCode program at Accenture in Chicago, IL. 2015.
+	</br>
+	</br>
+	</div>
+	
+	<div data-role="footer" class="ui-content"> 
+	<a href="#pageone" class="ui-btn">Back to menu</a>
+	</div>
+</div>
+
+<!-- LINK TO GAME -->
+<div data-role="page" id="game">
+	<script src="ffscript.html"></script>
+</div>
+
+</body>
+</html>

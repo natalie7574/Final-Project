@@ -1,0 +1,314 @@
+<html>
+<head>
+<script>
+var levels = [//0=blue wall,1=dot,2=chompy,3=ghost,4=large dot, 5=Red Wall
+	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+    [0,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0],
+    [0,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0],
+    [0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+    [0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+    [0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+    [0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+    [0,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,0],
+    [0,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,0],
+    [0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+    [0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,1,1,0],
+    [0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,1,1,0],
+    [0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+    [0,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,4,0],
+    [0,1,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,0],
+    [0,1,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1,1,0],
+    [0,1,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,1,0],
+    [0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0]
+	];
+	
+	
+	
+	var drawMaze = function() {
+    var tile_h = 400/maze.length;
+    var tile_w = 400/maze[0].length;
+    var tile;
+    for(var x = 0;x < maze.length;x += 1){
+        for(var y = 0;y < maze[x].length;y += 1){
+            tile = maze[x][y].val;
+            if(tile === 0){
+                fill(0, 0, 255);
+                rect(tile_h*y,tile_w*x,tile_w+1,tile_h+1);
+                noStroke();
+            }else{
+                fill(0, 0, 0);
+                rect(tile_h*y,tile_w*x,tile_w+1,tile_h+1);
+                if(tile === 1){
+                    fill(255, 255, 255);
+                    ellipse(tile_h*(y+0.5),tile_w*(x+0.5),6,6);
+                }
+                else if(tile === 4){
+                    fill(255, 255, 255);
+                    ellipse(tile_h*(y+0.5),tile_w*(x+0.5),13,13);
+                }
+                else if(tile === 5){fill(0, 0,255);
+                rect(tile_h*y,tile_w*x,tile_w+1,tile_h+1);
+                noStroke();
+                }
+                else if(tile === 6) {fill(255,255,255);
+                text("LEVEL 1",322,16);
+                noStroke();
+                }
+                else if(tile === 7) {fill(255,255,255);
+                text("LEVEL 2",322,16);
+                noStroke();
+                }
+                else if(tile === 8) {fill(255,255,255);
+                text("LEVEL 3",322,16);
+                noStroke();
+                }
+                else if(tile === 9) {fill(255,255,255);
+                text("LEVEL 4",322,16);
+                noStroke();
+                }
+                else if(tile === 10) {fill(255,255,255);
+                text("LEVEL 5",322,16);
+                noStroke();
+                }
+                else if(tile === 11) {fill(255,255,255);
+                text("LEVEL 6",322,16);
+                noStroke();
+                }
+                else if(tile === 12) {fill(255,255,255);
+                text("LEVEL 7",322,16);
+                noStroke();
+                }
+                else if(tile === 13) {fill(255,255,255);
+                text("LEVEL 8",322,16);
+                noStroke();
+                }
+                else if(tile === 14) {fill(255,255,255);
+                text("LEVEL 9",322,16);
+                noStroke();
+                }
+                else if(tile === 15) {fill(255,255,255);
+                text("&*%$€@",322,16);
+                noStroke();
+                } 
+                else if(tile === 16) {fill(255,255,255);
+                text("SCORE",73,16);
+                text(+score,126,16);
+                noStroke();
+                } 
+                else if(tile === 17) {fill(255,255,255);
+                text("HI SCORE   "+highscore,189,16);
+                noStroke();
+                }
+                // glitch black
+                if(tile === 101){
+                    fill(0, 0, 0);
+                    ellipse(tile_h*(y+0.5),tile_w*(x+0.5),6,6);
+                    
+                }  
+            }
+        }
+    }
+	};
+	
+	var pacmansp = 1.4999999999999;// can go up to 		 1.49.... or down to 0.51          
+	var debuginfo = 3;
+	var maze = [];
+	var highscore = "11,990";
+
+	var displayDebugInfo = true;
+	var invincibleTime =0;
+	var debugOutput = function(t){
+		if(displayDebugInfo){
+			textSize(100);
+			text(t,0,400);
+    }
+};
+	
+	var compass = {
+    opp:function(d){
+        var r;
+        switch(d.s){
+            case "n":
+                r = this.s;
+                break;
+            case "s":
+                r = this.n;
+                break;
+            case "e":
+                r = this.w;
+                break;
+            case "w":
+                r = this.e;
+                break;
+        }
+        return r;
+    },
+    n:{x:0,y:-pacmansp,s:"n"},
+    s:{x:0,y:pacmansp,s:"s"},
+    e:{x:pacmansp,y:0,s:"e"},
+    w:{x:-pacmansp,y:0,s:"w"}
+};
+	
+
+	var lastOrder = compass.e;
+	var keyPressed = function(){
+    moving = true;
+    if(keyCode === UP){
+        lastOrder = compass.n;
+    }else if(keyCode === DOWN){
+        lastOrder = compass.s;
+    }else if(keyCode === RIGHT){
+        lastOrder = compass.e;
+    }else if(keyCode === LEFT){
+        lastOrder = compass.w;
+    }
+	};
+var drawMaze = function() {
+    var tile_h = 400/maze.length;
+    var tile_w = 400/maze[0].length;
+    var tile;
+    for(var x = 0;x < maze.length;x += 1){
+        for(var y = 0;y < maze[x].length;y += 1){
+            tile = maze[x][y].val;
+            if(tile === 0){
+                fill(0, 0, 255);
+                rect(tile_h*y,tile_w*x,tile_w+1,tile_h+1);
+                noStroke();
+            }else{
+                fill(0, 0, 0);
+                rect(tile_h*y,tile_w*x,tile_w+1,tile_h+1);
+                if(tile === 1){
+                    fill(255, 255, 255);
+                    ellipse(tile_h*(y+0.5),tile_w*(x+0.5),6,6);
+                }
+                else if(tile === 4){
+                    fill(255, 255, 255);
+                    ellipse(tile_h*(y+0.5),tile_w*(x+0.5),13,13);
+                }
+                else if(tile === 5){fill(0, 0,255);
+                rect(tile_h*y,tile_w*x,tile_w+1,tile_h+1);
+                noStroke();
+                }
+                else if(tile === 6) {fill(255,255,255);
+                text("LEVEL 1",322,16);
+                noStroke();
+                }
+                else if(tile === 7) {fill(255,255,255);
+                text("LEVEL 2",322,16);
+                noStroke();
+                }
+                else if(tile === 8) {fill(255,255,255);
+                text("LEVEL 3",322,16);
+                noStroke();
+                }
+                else if(tile === 9) {fill(255,255,255);
+                text("LEVEL 4",322,16);
+                noStroke();
+                }
+                else if(tile === 10) {fill(255,255,255);
+                text("LEVEL 5",322,16);
+                noStroke();
+                }
+                else if(tile === 11) {fill(255,255,255);
+                text("LEVEL 6",322,16);
+                noStroke();
+                }
+                else if(tile === 12) {fill(255,255,255);
+                text("LEVEL 7",322,16);
+                noStroke();
+                }
+                else if(tile === 13) {fill(255,255,255);
+                text("LEVEL 8",322,16);
+                noStroke();
+                }
+                else if(tile === 14) {fill(255,255,255);
+                text("LEVEL 9",322,16);
+                noStroke();
+                }
+                else if(tile === 15) {fill(255,255,255);
+                text("&*%$€@",322,16);
+                noStroke();
+                } 
+                else if(tile === 16) {fill(255,255,255);
+                text("SCORE",73,16);
+                text(+score,126,16);
+                noStroke();
+                } 
+                else if(tile === 17) {fill(255,255,255);
+                text("HI SCORE   "+highscore,189,16);
+                noStroke();
+                }
+                // glitch black
+                if(tile === 101){
+                    fill(0, 0, 0);
+                    ellipse(tile_h*(y+0.5),tile_w*(x+0.5),6,6);
+                    
+                }
+            }
+        }
+	}
+	};
+	
+	draw = function() {
+    drawMaze();
+    for(var i = 0;i<debuginfo;i++){
+        image(heart,i*21,0,20,20);
+    }
+    drawGhosts();
+    drawChompy(you.x,you.y,tileSize);
+    drawChompy(you.x,you.y-maze.length,tileSize);
+    drawChompy(you.x-maze.length,you.y,tileSize);
+    if(playing && !paused){
+        moveChomp();
+        moveGhosts();
+    }
+    if(win()){
+        if(level < levels.length){
+            lastOrder = compass.e;
+            newMaze(levels[level]);
+            level++;
+        }else{
+            playing = false;
+        
+        textSize(50);
+        fill(255, 255, 255);
+        text("YOU WIN",88,207);
+        textSize(12);
+        paused = true;
+    }}
+    if(invincibleTime > 0){
+        invincibleTime--;
+        if (invincibleTime % 5 < 3 && invincibleTime < 60){
+            ghostImage = getImage("avatars/orange-juice-squid");
+        }else{
+            ghostImage = getImage("avatars/purple-pi");
+        }
+        if(byGhost()){
+            var DeadGhost = byGhost()-1;
+            ghosts.splice(DeadGhost,1);
+            score += 100;
+        }
+    }else{
+        if(byGhost()){
+            if(debuginfo <= 0){
+                var x = 1;
+                textSize(12);
+                fill(199, 2, 2);
+                text("GAME OVER",166,224);
+                playing = false;
+            }else{
+                newMaze(levels[level-1],"yes");
+                debuginfo -= 1;
+                paused = true;
+            }
+        }
+    }
+};
+
+
+	</script>
+	</head>
+	<body >
+</body>
+</html>

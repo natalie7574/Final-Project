@@ -1,0 +1,47 @@
+<html>
+<head>
+	<title>Flawless Fahrenheit</title>
+	<!-- <script src="processing-1.4.1.js"></script>-->
+	<style>
+	html, body {
+			  background: #FFFFFF;
+			}
+	</style>
+	<link rel="stylesheet" type="text/css" href="flawless2.css"/>
+	<script class="office">
+	var board = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+	var boardSize = 4;
+	function arrowPress(e){
+				//check console to see key values pressed
+				console.log(e.keyCode);
+				var dir;
+					if(e.keyCode==38){
+						dir = "up";
+						console.log(dir);
+					}
+					
+					else if(e.keyCode==40){
+						dir = "down";
+						console.log(dir);
+					}
+					
+					else if(e.keyCode==37){
+						dir = "left";
+						console.log(dir);
+					}
+				
+					else if(e.keyCode==39){
+						dir = "right";
+						console.log(dir);
+				    }
+				}
+			
+		
+					
+			
+	
+	
+	</script>
+	</head>
+</body>
+</html>
