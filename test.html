@@ -1,0 +1,293 @@
+<html>
+<head>
+	<script src="processing-1.4.1.js"></script>
+	<!--<link rel="stylesheet" type="text/css" href="flawless2.css"/> -->
+	<script type="text/processing"  data-processing-target="mycanvas">
+	Woman reshma= new Woman(100,100,20,20);
+	Enemy boss= new Enemy(200,300,20,20,"left");
+	var score = 0;
+	var level = 0;
+	var levels = [//0= wall,1= open space
+		[//original
+		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+		[0,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0],
+		[0,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0],
+		[0,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+		[0,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,0,0,0],
+		[0,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0],
+		[0,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0],
+		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+		[0,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,0],
+		[0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0],
+		[0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0],
+		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+		
+	   ]
+	];
+
+var mazeSize = 400; 
+var tileHeight;
+var tileWidth; 
+var maze;
+	
+	void setup() {
+		size(1585,750);
+	}
+	void draw() {
+		background(255,255,255);
+		newMaze(level);
+		reshma.drawWoman();
+		boss.drawEnemy();
+		if (boss.canMove()){
+			boss.moveEnemy();
+		}
+		if(keyPressed == true){
+			//console.log(keyCode);
+			var dir;
+			if(keyCode==37) {
+				dir ="left" ;
+			}
+			else if(keyCode==39) {
+				dir ="right";
+			}
+			else if(keyCode==38) {
+				dir ="up";
+			}
+			else if(keyCode==40) {
+				dir ="down";
+			}
+			console.log(dir);
+			if(reshma.canMove(dir)){
+				reshma.moveWoman(dir);
+			}
+			
+		}
+	}
+	
+	
+var newMaze = function(indexLevels){
+    maze = levels[indexLevels];
+	tileHeight = mazeSize / maze.length;
+	tileWidth= mazeSize / maze[0].length;
+    
+    //fill(0,0,255);
+    //rect(100,100,tileHeight, tileWidth);
+    
+    for(var row = 0; row<maze.length; row ++){
+        for (var col = 0; col < maze[row].length; col++){
+            var tile = maze[row][col];
+            var tileY = row*tileHeight;
+            var tileX = col*tileWidth;
+            if(tile === 0){
+                noStroke();
+                fill(153, 153, 153);
+                rect(tileX, tileY, tileWidth+1, tileHeight+1);
+            }
+			if (tile==2){
+				fill(0, 0, 0);
+				rect(tileX, tileY, 39, 25);
+					fill (255, 0, 0);
+					ellipse (tileX+10,tileY+10,15,15);
+					fill (0, 0, 255);
+					ellipse(tileX+30,tileY+10,15,15);
+			}
+            
+        }
+        
+    }
+    
+    
+};
+
+class Enemy {
+	//attributes
+	var x;
+	var y;
+	var w;
+	var h;
+	var d;
+	
+	//constructor
+	Enemy(xPos,yPos,width,height,direction){
+	x= xPos;
+	y=yPos;
+	w=width;
+	h=height;
+	d=direction;
+	}
+	
+	//method
+	void drawEnemy() {
+		fill(0,0,255);
+		noStroke();
+		ellipse(x,y,w,h);
+	}
+	void moveEnemy() {
+		if (d=="right"){
+		x=x+2
+		}
+		else if (d== "left"){
+			x=x-2;
+			}
+			else if (d== "up"){
+			y=y-2;
+			}
+			else if (d== "down"){
+			y=y+2;
+			}
+	}
+	
+	boolean canMove(){
+		var canMove;
+		var row= Math.floor(y/tileHeight);
+		var col= Math.floor(x/tileWidth);
+			if (d== "left"){
+				if (maze[row][col-1]==0 || maze[row][col-1]==2){
+					canMove = false;
+					}
+				if (maze[row][col-1]==1) {	
+					canMove= true;
+					}
+			}
+			if (d=="right"){
+				if (maze[row][col+1]==0|| maze[row][col+1]==2) {
+					canMove= false;
+				}
+				if (maze[row][col+1]==1){
+					canMove= true;
+				}
+			}
+			if (d=="up"){
+				if (maze[row-1][col]==0 || maze[row-1][col]==2){
+					canMove= false;
+				}
+				if (maze[row-1][col]==1){
+					canMove= true;
+				}
+			}
+			if (d=="down"){
+				if (maze[row+1][col]==0 ||maze[row+1][col]==2){
+					canMove= false;
+				}
+				if (maze[row+1][col]==1){
+					canMove= true;
+				}
+		}
+		if (canMove==false){
+			d=Math.floor((Math.random()*4)+1);
+			if (d==1){
+				d= "left";
+			}
+			if (d==2){
+				d="right";
+			}
+			if (d==3){
+				d="up";
+			}
+			if (d==4){
+				d="down";
+			}
+		}
+		
+		return canMove;
+}
+}
+
+
+	class Woman {
+		//attributes
+		var x;
+		var y;
+		var w;
+		var h;
+		
+		//constructor
+		Woman(xPos,yPos,width,height){
+		x = xPos;
+		y = yPos;
+		w = width;
+		h = height;
+		}
+		
+		//method
+		
+		void drawWoman() {
+			fill(20,50,60);
+			noStroke();
+			ellipse(x,y,w,h);
+		}
+	
+		void moveWoman(direction){
+			if (direction == "right"){
+			x=x+5;
+			}
+			else if (direction == "left"){
+			x=x-5;
+			}
+			else if (direction == "up"){
+			y=y-5;
+			}
+			else if (direction == "down"){
+			y=y+5;
+			}
+		
+		}
+		
+		boolean canMove (dir) {
+			var row= Math.floor(y/tileHeight);
+			var col= Math.floor(x/tileWidth);
+			if (dir== "left"){
+				if (maze[row][col-1]==0|| maze[row][col-1]==2){
+					return false;
+					}
+				if (maze[row][col-1]==1) {	
+					return true;
+					}
+			}
+			if (dir=="right"){
+				if (maze[row][col+1]==0|| maze[row][col+1]==2){
+					return false;
+				}
+				if (maze[row][col+1]==1){
+					return true;
+				}
+			}
+			if (dir=="up"){
+				if (maze[row-1][col]==0|| maze[row-1][col]==2){
+					return false;
+				}
+				if (maze[row-1][col]==1){
+					return true;
+				}
+			}
+			if (dir=="down"){
+				if (maze[row+1][col]==0||maze[row+1][col]==2 ){
+					return false;
+				}
+				if (maze[row+1][col]==1){
+					return true;
+				}
+			}
+			
+			
+		}
+		}
+	
+	
+	
+          
+	
+	
+	</script>
+	</head>
+	<body >
+	<canvas id ="mycanvas"></canvas> 
+</body>
+</html>
