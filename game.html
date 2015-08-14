@@ -5,9 +5,10 @@
 	<script type="text/processing"  data-processing-target="mycanvas">
 	Woman reshma= new Woman(100,100,20,20);
 	Enemy boss= new Enemy(200,300,20,20,"left");
+	Thermometer thermy= new Thermometer(50);
 	var score = 0;
 	var level = 0;
-	var levels = [//0= wall, 1=open space
+	var levels = [//0= wall, 1=open space 2 = thermostat
 		[//original
 		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
@@ -47,6 +48,10 @@ var maze;
 		boss.drawEnemy();
 		if (boss.canMove()){
 			boss.moveEnemy();
+		}
+		if (reshma.touchBoss(boss.x, boss.y)){
+			reshma.x=100;
+			reshma.y=100;
 		}
 		if(keyPressed == true){
 			//console.log(keyCode);
@@ -160,34 +165,34 @@ class Enemy {
 		var row= Math.floor(y/tileHeight);
 		var col= Math.floor(x/tileWidth);
 			if (d== "left"){
-				if (maze[row][col-1]==0 || maze[row][col-1]==2){
+				if (maze[row][col-1]==0){
 					canMove = false;
 					}
-				if (maze[row][col-1]==1) {	
+				if (maze[row][col-1]==1 || maze[row][col-1]==2){	
 					canMove= true;
 					}
 			}
 			if (d=="right"){
-				if (maze[row][col+1]==0|| maze[row][col+1]==2) {
+				if (maze[row][col+1]==0) {
 					canMove= false;
 				}
-				if (maze[row][col+1]==1){
+				if (maze[row][col+1]==1 || maze[row][col+1]==2){
 					canMove= true;
 				}
 			}
 			if (d=="up"){
-				if (maze[row-1][col]==0 || maze[row-1][col]==2){
+				if (maze[row-1][col]==0){
 					canMove= false;
 				}
-				if (maze[row-1][col]==1){
+				if (maze[row-1][col]==1 || maze[row-1][col]==2){
 					canMove= true;
 				}
 			}
 			if (d=="down"){
-				if (maze[row+1][col]==0 ||maze[row+1][col]==2){
+				if (maze[row+1][col]==0){
 					canMove= false;
 				}
-				if (maze[row+1][col]==1){
+				if (maze[row+1][col]==1 || maze[row+1][col]==2){
 					canMove= true;
 				}
 		}
@@ -208,8 +213,8 @@ class Enemy {
 		}
 		
 		return canMove;
-}
-}
+		}
+	}
 
 	//draws Reshma
 	
@@ -268,44 +273,82 @@ class Enemy {
 			var row= Math.floor(y/tileHeight);
 			var col= Math.floor(x/tileWidth);
 			if (dir== "left"){
-				if (maze[row][col-1]==0|| maze[row][col-1]==2){
+				if (maze[row][col-1]==0){
 					return false;
 					}
-				if (maze[row][col-1]==1) {	
+				if (maze[row][col-1]==1 || maze[row][col-1]==2) 	{	
 					return true;
 					}
 			}
 			if (dir=="right"){
-				if (maze[row][col+1]==0|| maze[row][col+1]==2){
+				if (maze[row][col+1]==0){
 					return false;
 				}
-				if (maze[row][col+1]==1){
+				if (maze[row][col+1]==1 || maze[row][col+1]==2){
 					return true;
 				}
 			}
 			if (dir=="up"){
-				if (maze[row-1][col]==0|| maze[row-1][col]==2){
+				if (maze[row-1][col]==0){
 					return false;
 				}
-				if (maze[row-1][col]==1){
+				if (maze[row-1][col]==1 || maze[row-1][col]==2){
 					return true;
 				}
 			}
 			if (dir=="down"){
-				if (maze[row+1][col]==0||maze[row+1][col]==2 ){
+				if (maze[row+1][col]==0){
 					return false;
 				}
-				if (maze[row+1][col]==1){
+				if (maze[row+1][col]==1 || maze[row+1][col]==2 ){
 					return true;
 				}
-			}
-			
-			
+			}		
 		}
+	
+	boolean touchBoss (bx,by){
+			var rr= Math.floor(y/tileHeight);
+			var rc = Math.floor(x/tileWidth);
+			var br=Math.floor(by/tileHeight);
+			var bc=Math.floor(bx/tileWidth);
+			if (rr==br && rc==bc){
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	boolean touchTherm {
+			if (){
+				return true;
+				}
+			else {
+				return false;
+				}
+	}
+	}
+	class Thermometer {
+	//attributes
+	var widthMercury;
+	//constructor
+		Thermometer(wM){
+			widthMercury=wM;
+		}
+	//methods
+	void drawThermometer(){
+		stroke(153);
+		fill (255,255,255);
+		rect(0,500,300, 50);
+		fill (255,0,0);
+		rect(0, 500, widthMercury, 50);
+		}
+	void moveThermometer(){
+		widthMercury=widthMercury+1;
+	}	
 	}
 	</script>
 	</head>
-	<body >
+	<body>
 	<canvas id ="mycanvas"></canvas> 
 </body>
 </html>
