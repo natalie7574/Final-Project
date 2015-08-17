@@ -1,0 +1,484 @@
+<html>
+<head>
+	<script src="processing-1.4.1.js"></script>
+	<!--<link rel="stylesheet" type="text/css" href="flawless2.css"/>-->
+	<script type="text/processing"  data-processing-target="mycanvas">
+	Woman reshma= new Woman(100,100,20,20);
+	Enemy boss= new Enemy(100,80,"left");
+	Thermometer thermy= new Thermometer(20);
+	<!-- natalie's lives --> 
+	var lives = 3;
+	
+	var score = 0;
+	var level = 0;
+	
+	var levels = [//0= wall,1= open space
+		[//original
+		[3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+		[0,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0],
+		[0,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0],
+		[0,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+		[0,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,0,0,0],
+		[0,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0],
+		[0,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0],
+		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+		[0,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,0],
+		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+		[0,1,1,1,0,0,0,0,0,1,1,1,0,0,0,0,0,1,0],
+		[0,1,1,1,0,0,0,0,0,1,1,1,0,0,0,0,0,1,0],
+		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+		
+	   ],
+	   [//original
+		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+		[0,1,0,0,0,0,1,1,1,1,1,1,1,0,0,1,1,1,0],
+		[0,1,0,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,0],
+		[0,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,0,0],
+		[0,1,1,1,1,1,0,0,1,1,1,0,1,1,1,1,1,1,0],
+		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+		[0,1,1,0,0,1,1,1,0,0,1,1,1,1,1,1,0,0,0],
+		[0,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0],
+		[0,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,0],
+		[0,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,0],
+		[0,0,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0],
+		[0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,1,1,1,0],
+		[0,1,1,1,1,1,1,1,1,1,2,1,1,0,1,1,1,1,0],
+		[0,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,0,1,0],
+		[0,1,1,1,1,0,0,1,1,0,0,0,1,1,1,1,0,1,0],
+		[0,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+		[0,1,1,1,1,1,1,1,0,1,1,1,1,0,0,1,1,1,0],
+		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+
+	   ]
+	];
+	
+	
+
+var mazeSize = 400; 
+var tileHeight;
+var tileWidth; 
+var maze;
+//var heart= fill(255,0,0);
+	//	   rect(0,0,25,25);
+	
+	void setup() {
+		size(1585,750);
+	}
+	//button
+	var mousepressed=false;
+	void mousePressed(){
+		if (mouseX>320 && mouseX<420 && mouseY>400 && mouseY<500){
+			if (reshma.showButton()){
+				mousepressed=true;}
+		}
+	}
+	void mouseReleased(){
+		mousepressed=false;
+	}
+	//draw game
+
+	void draw() {
+		background(255,255,255);
+		newMaze(level);
+		if (mousepressed){
+			console.log("mouse was pressed");
+			thermy.moveThermometer();
+		}
+		reshma.drawWoman();
+		thermy.drawThermometer();
+		//thermy.moveThermometer();
+		boss.drawEnemy();
+		if (boss.canMove()){
+			boss.moveEnemy();
+			}
+		if (reshma.touchBoss(boss.x, boss.y)){
+			reshma.x=100;
+			reshma.y=100;
+			window.alert("Get back to work!");
+			boss.x=200;
+			boss.y=300;
+			<!--natalie's code -->
+			lives--; 
+			if (lives==2){
+				maze=[0][2]=0;
+			} else if (lives==1){
+				maze[0][1]=0;
+			} else if (lives=0){
+				maze[0][0]=0;
+			}
+			
+			<!--end natalie's code -->
+				
+				
+		}
+		if (reshma.showButton()){
+			fill(0,0,0);
+			ellipse(370,450,50,50);	
+			fill(255,0,0);
+			triangle(370, 435, 355, 460, 385, 460);
+			}
+		if (thermy.thermometerfull()){
+			window.alert("Congratulations! You have been promoted.");
+			mousepressed=false;
+			level++;
+			reshma.x=100;
+			reshma.y=100;
+			thermy.widthMercury=20;
+		}
+		
+		if(keyPressed == true){
+			//console.log(keyCode);
+			var dir;
+			if(keyCode==37) {
+				dir ="left" ;
+			}
+			else if(keyCode==39) {
+				dir ="right";
+			}
+			else if(keyCode==38) {
+				dir ="up";
+			}
+			else if(keyCode==40) {
+				dir ="down";
+			}
+			console.log(dir);
+			if(reshma.canMove(dir)){
+				reshma.moveWoman(dir);
+			}
+			
+		}
+		
+	}
+	
+	
+	
+	
+var newMaze = function(indexLevels){
+    maze = levels[indexLevels];
+	tileHeight = mazeSize / maze.length;
+	tileWidth= mazeSize / maze[0].length;
+    
+    //fill(0,0,255);
+    //rect(100,100,tileHeight, tileWidth);
+    
+    for(var row = 0; row<maze.length; row ++){
+        for (var col = 0; col < maze[row].length; col++){
+            var tile = maze[row][col];
+            var tileY = row*tileHeight;
+            var tileX = col*tileWidth;
+            if(tile === 0){
+                noStroke();
+                fill(153, 153, 153);
+                rect(tileX, tileY, tileWidth+1, tileHeight+1);
+            }
+			
+			if (tile==2){
+				fill(0, 0, 0);
+				rect(tileX, tileY, 39, 25);
+					fill (204, 255, 153);
+					rect (tileX+5,tileY+5,15,15);
+					fill (255, 255, 255);
+					triangle(tileX+30,tileY+3,tileX+25,tileY+10,tileX+35, tileY+10);
+					triangle(tileX+30,tileY+20,tileX+25,tileY+14,tileX+35, tileY+14);
+			}
+			if (tile==3){
+				 noStroke();
+                fill(153, 153, 153);
+                rect(tileX, tileY, tileWidth+1, tileHeight+1);
+				fill(255,0,0);
+				ellipse(tileX+8, tileY+8, 10,10);
+			}
+            
+        }
+        
+    }
+    
+    
+};
+
+class Enemy {
+	//attributes
+	var x;
+	var y;
+	var w;
+	var h;
+	var d;
+	
+	//constructor
+	Enemy(xPos,yPos,width,height,direction){
+	x= xPos;
+	y=yPos;
+	w=width;
+	h=height;
+	d=direction;
+	}
+	
+	//method
+	void drawEnemy() {
+		fill(219, 213, 92);
+noStroke();
+// big rect
+rect(x,y,w,h);
+// ears
+rect(x+263,y+125,37,40);
+rect(x+71,y+125,39,40);
+//bottom beige
+rect(x+122,y+207,134,17);
+rect(x+137,y+222,100,17);
+//top beige 
+rect (x+116,y+64,139,17);
+rect(x+131,y+48,109,17);
+//hair
+fill(0, 0, 0);
+rect(x+101,y+22,17,114);
+rect(x+255,y+60,17,87);
+rect(x+117,y+22,123,26);
+rect(x+149,y+2,91,23);
+rect(x+115,y+45,19,35);
+rect(x+133,y+36,25,25);
+rect(x+239,y+14,20,54);
+rect(x+248,y+28,24,38);
+//eyes
+rect(x+211,y+103,23,56);
+rect(x+139,y+103,23,56);
+//bowtie
+rect(x+194,y+221,28,37);
+rect(x+152,y+221,28,37);
+rect(x+162,y+232,41,16);
+fill(33, 163, 33);
+rect(x+157,y+229,17,17);
+rect(x+198,y+229,17,17);
+	}
+	
+	void moveEnemy() {
+		if (d=="right"){
+		x=x+2
+		}
+		else if (d== "left"){
+			x=x-2;
+			}
+			else if (d== "up"){
+			y=y-2;
+			}
+			else if (d== "down"){
+			y=y+2;
+			}
+	}
+	
+	boolean canMove(){
+		var canMove;
+		var row= Math.floor(y/tileHeight);
+		var col= Math.floor(x/tileWidth);
+			if (d== "left"){
+				if (maze[row][col-1]==0 ){
+					canMove = false;
+					}
+				if (maze[row][col-1]==1|| maze[row][col-1]==2) {	
+					canMove= true;
+					}
+			}
+			if (d=="right"){
+				if (maze[row][col+1]==0) {
+					canMove= false;
+				}
+				if (maze[row][col+1]==1|| maze[row][col+1]==2){
+					canMove= true;
+				}
+			}
+			if (d=="up"){
+				if (maze[row-1][col]==0 ){
+					canMove= false;
+				}
+				if (maze[row-1][col]==1|| maze[row-1][col]==2){
+					canMove= true;
+				}
+			}
+			if (d=="down"){
+				if (maze[row+1][col]==0){
+					canMove= false;
+				}
+				if (maze[row+1][col]==1||maze[row+1][col]==2){
+					canMove= true;
+				}
+		}
+		if (canMove==false){
+			d=Math.floor((Math.random()*4)+1);
+			if (d==1){
+				d= "left";
+			}
+			if (d==2){
+				d="right";
+			}
+			if (d==3){
+				d="up";
+			}
+			if (d==4){
+				d="down";
+			}
+		}
+		
+		return canMove;
+}
+}
+
+	class Woman {
+		//attributes
+		var x;
+		var y;
+		var w;
+		var h;
+		
+		//constructor
+		Woman(xPos,yPos,width,height){
+		x = xPos;
+		y = yPos;
+		w = width;
+		h = height;
+		}
+		
+		//method
+		
+		void drawWoman() {
+			//body
+			fill(0,154,205);
+			noStroke();
+			ellipse(x,y,w,h);
+			//bow
+			fill(255,20,147);
+			triangle(x,y-10,x-8,y-15,x-8,y-5);
+			triangle(x,y-10,x+8,y-15,x+8,y-5);
+			//face
+			fill(0,0,0);
+			ellipse(x-4,y-2,w/4,h/4);
+			ellipse(x+4,y-2,w/4,h/4);
+			rect(x-4,y+4,w/2.5,h/9);
+			rect(x-6,y+2.6,w/10,h/10);
+			rect(x+3.5,y+2.6,w/10,h/10);
+		}
+	
+		void moveWoman(direction){
+			if (direction == "right"){
+			x=x+2.5;
+			}
+			else if (direction == "left"){
+			x=x-2.5;
+			}
+			else if (direction == "up"){
+			y=y-2.5;
+			}
+			else if (direction == "down"){
+			y=y+2.5;
+			}
+		
+		}
+		
+		boolean canMove (dir) {
+			var row= Math.floor(y/tileHeight);
+			var col= Math.floor(x/tileWidth);
+			if (dir== "left"){
+				if (maze[row][col-1]==0){
+					return false;
+					}
+				if (maze[row][col-1]==1|| maze[row][col-1]==2) {	
+					return true;
+					}
+			}
+			if (dir=="right"){
+				if (maze[row][col+1]==0){
+					return false;
+				}
+				if (maze[row][col+1]==1|| maze[row][col+1]==2){
+					return true;
+				}
+			}
+			if (dir=="up"){
+				if (maze[row-1][col]==0){
+					return false;
+				}
+				if (maze[row-1][col]==1|| maze[row-1][col]==2){
+					return true;
+				}
+			}
+			if (dir=="down"){
+				if (maze[row+1][col]==0){
+					return false;
+				}
+				if (maze[row+1][col]==1||maze[row+1][col]==2 ){
+					return true;
+				}
+			}
+			
+			
+		}
+		boolean touchBoss (bx,by){
+			var rr= Math.floor(y/tileHeight);
+			var rc = Math.floor(x/tileWidth);
+			var br=Math.floor(by/tileHeight);
+			var bc=Math.floor(bx/tileWidth);
+			if (rr==br && rc==bc 
+				|| rr == br+1 && rc == bc 
+				|| rr == br-1 && rc == bc
+				|| rr == br && rc == bc+1
+				|| rr == br && rc == bc-1
+				){
+				return true;
+				
+			}
+			else {return false;
+			}
+		}
+		boolean showButton (){
+			var rr= Math.floor(y/tileHeight);
+			var rc = Math.floor(x/tileWidth);
+			if (rr==13 && rc==10|| rr==13 && rc==11){
+				return true;
+			}
+			else {return false;
+			}
+		}
+	}
+	class Thermometer {
+	//attributes
+	var widthMercury;
+	//constructor
+	Thermometer(wM){
+	widthMercury=wM;
+	}
+	//methods
+	void drawThermometer(){
+		stroke(153);
+		fill (255,255,255);
+		rect(60,420,250, 50);
+		fill (255,0,0);
+		rect(60, 420, widthMercury, 50);
+		noStroke();
+		ellipse(40, 445, 70, 70);
+		}
+	void moveThermometer(){
+		widthMercury=widthMercury+.5;
+	}
+	boolean thermometerfull(){
+		if (widthMercury==175){
+			return true;
+		}
+		else 
+		{return false;}
+	}
+	}
+	</script>
+	</head>
+	<body >
+	<canvas id ="mycanvas"></canvas> 
+<!--	<img id="myImg" src="C:\Users\jennifer\Documents\GWC week 6\Final-Project\woman.jpg">-->
+	<!-- <p class="CT"> Current Temp: Freezing </p> -->
+	<!-- <p class="GT"> Goal Temp: 80&degF </p> -->
+	<p class="Goal">Goal^ </p>
+</body>
+</html>
